@@ -1,32 +1,91 @@
 :root {
-  --display: Georgia, "Times New Roman", serif;
-  --sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --ink: #243223;
-  --muted: #66705e;
-  --forest: #467642;
-  --forest-deep: #254524;
+  --color-bg: #f5f2ed;
+  --color-surface: #faf8f4;
+  --color-sidebar: #1a2e1a;
+  --color-sidebar-hover: #243624;
+  --color-active: #2d4a2d;
 
-  font-family: var(--sans);
+  --color-primary: #2e5e2e;
+  --color-primary-light: #4a8a4a;
+  --color-primary-muted: #e8f0e8;
+  --color-gold: #c9a84c;
+  --color-gold-light: #f5e9c8;
+
+  --color-excellent: #2e7d32;
+  --color-good: #558b2f;
+  --color-average: #f57f17;
+  --color-poor: #c62828;
+
+  --color-text-primary: #1c2b1c;
+  --color-text-secondary: #5a6b5a;
+  --color-text-muted: #8a9a8a;
+  --color-text-inverse: #f5f2ed;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.25rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-sm: 0 1px 3px rgba(30, 50, 30, 0.06), 0 1px 2px rgba(30, 50, 30, 0.04);
+  --shadow-md: 0 4px 16px rgba(30, 50, 30, 0.08), 0 2px 6px rgba(30, 50, 30, 0.05);
+  --shadow-lg: 0 12px 40px rgba(30, 50, 30, 0.12);
+
+  --sidebar-width: 280px;
+
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
-  color: var(--ink);
-  background: #f2ecde;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
+  font-size: 16px;
   scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  line-height: 1.6;
 }
 
 #root {
@@ -44,6 +103,11 @@ a {
   color: inherit;
 }
 
-p {
-  margin: 0;
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+  color: var(--color-text-primary);
 }
