@@ -1,8 +1,13 @@
+import { useState } from 'react'
 import { authUtils } from '../utils/auth'
 import { VIEWS } from '../utils/constants'
+import { Profile } from '../pages/Profile'
 
 export function Sidebar({ activeView, onViewChange, onLogout }) {
   const user = authUtils.getUser()
+  const [showProfileModal, setShowProfileModal] = useState(false)
+
+  const initials = (user?.email?.charAt(0) || 'A').toUpperCase()
 
   return (
     <aside className="sidebar">
@@ -32,24 +37,47 @@ export function Sidebar({ activeView, onViewChange, onLogout }) {
       </div>
 
       <div className="sidebar-footer">
-        <div className="user-chip">
-          <span className="avatar sidebar-footer-avatar">
-            {user?.email?.charAt(0).toUpperCase() || 'AK'}
-          </span>
-          <div>
-            <strong className="sidebar-footer-name">
-              {user?.email?.split('@')[0] || 'Admin'}
-            </strong>
-            <span className="sidebar-footer-role">Factory Officer</span>
-          </div>
-        </div>
         <button
           type="button"
-          className="logout-button"
-          onClick={onLogout}
-          title="Sign out"
+          className="profile-section-btn"
+          onClick={() => setShowProfileModal(!showProfileModal)}
         >
-          ← Sign out
+          <span className="avatar sidebar-footer-avatar">{initials}</span>
+          <div className="profile-info">
+            <strong className="sidebar-footer-name">
+              Profile
+            </strong>
+          </div>
+        </button>
+
+        {showProfileModal && (
+          <>
+            <div className="profile-drawer-overlay" onClick={() => setShowProfileModal(false)} />
+            <div className="profile-drawer">
+              <div className="profile-drawer-header">
+                <h2>My Profile</h2>
+                <button
+                  type="button"
+                  className="profile-drawer-close"
+                  onClick={() => setShowProfileModal(false)}
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="profile-drawer-content">
+                <Profile />
+              </div>
+            </div>
+          </>
+        )}
+
+        <button
+          type="button"
+          className="sidebar-signout-btn"
+          onClick={onLogout}
+          title="Sign out from your account"
+        >
+          Sign out
         </button>
       </div>
     </aside>
