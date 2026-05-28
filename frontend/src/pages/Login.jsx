@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { COLORS, TYPOGRAPHY, SPACING, BORDER_RADIUS } from '../design-tokens'
 
 export function Login({ onLoginSuccess }) {
-  const [email, setEmail] = useState('you@estate.lk')
-  const [password, setPassword] = useState('password')
+  const [email, setEmail] = useState('admin@teafactory.local')
+  const [password, setPassword] = useState('admin123')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -20,7 +20,8 @@ export function Login({ onLoginSuccess }) {
       })
 
       if (!response.ok) {
-        throw new Error('Invalid email or password')
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Invalid email or password')
       }
 
       const data = await response.json()
@@ -62,7 +63,7 @@ export function Login({ onLoginSuccess }) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@estate.lk"
+                placeholder="admin@teafactory.local"
                 required
                 disabled={isLoading}
               />

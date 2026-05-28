@@ -81,7 +81,7 @@ export function Signup({ onSignupSuccess }) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@estate.lk"
+                placeholder="user@estate.lk"
                 required
                 disabled={isLoading}
               />
