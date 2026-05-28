@@ -1,6 +1,9 @@
+import { authUtils } from '../utils/auth'
 import { VIEWS } from '../utils/constants'
 
-export function Sidebar({ activeView, onViewChange }) {
+export function Sidebar({ activeView, onViewChange, onLogout }) {
+  const user = authUtils.getUser()
+
   return (
     <aside className="sidebar">
       <div className="brand sidebar-brand">
@@ -30,12 +33,24 @@ export function Sidebar({ activeView, onViewChange }) {
 
       <div className="sidebar-footer">
         <div className="user-chip">
-          <span className="avatar sidebar-footer-avatar">AK</span>
+          <span className="avatar sidebar-footer-avatar">
+            {user?.email?.charAt(0).toUpperCase() || 'AK'}
+          </span>
           <div>
-            <strong className="sidebar-footer-name">Admin Kavindu</strong>
+            <strong className="sidebar-footer-name">
+              {user?.email?.split('@')[0] || 'Admin'}
+            </strong>
             <span className="sidebar-footer-role">Factory Officer</span>
           </div>
         </div>
+        <button
+          type="button"
+          className="logout-button"
+          onClick={onLogout}
+          title="Sign out"
+        >
+          ← Sign out
+        </button>
       </div>
     </aside>
   )

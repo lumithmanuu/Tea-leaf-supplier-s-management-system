@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import './auth.css'
 import { Sidebar } from './components/Sidebar'
 import { Topbar } from './components/Topbar'
 import { Dashboard } from './pages/Dashboard'
@@ -7,7 +8,10 @@ import { Suppliers } from './pages/Suppliers'
 import { Grades } from './pages/Grades'
 import { Collections } from './pages/Collections'
 import { Reports } from './pages/Reports'
+import { Login } from './pages/Login'
+import { Signup } from './pages/Signup'
 import { request, loadAllData } from './utils/api'
+import { authUtils } from './utils/auth'
 import {
   VIEWS,
   EMPTY_SUPPLIER_FORM,
@@ -16,6 +20,8 @@ import {
 } from './utils/constants'
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [authView, setAuthView] = useState('login') // 'login' or 'signup'
   const [activeView, setActiveView] = useState('dashboard')
   const [searchTerm, setSearchTerm] = useState('')
   const [dashboard, setDashboard] = useState(null)
@@ -31,8 +37,28 @@ function App() {
   const [gradeForm, setGradeForm] = useState(EMPTY_GRADE_FORM)
   const [collectionForm, setCollectionForm] = useState(EMPTY_COLLECTION_FORM)
 
+  // Check authentication status on mount
   useEffect(() => {
-    loadData()
+    if (authUtils.isAuthenticated()) {
+      setIsAuthenticated(true)
+      loadData()
+    } else {
+      setLoading(false)
+    }
+
+    // Handle hash-based routing for auth pages
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1)
+      if (hash === 'signup') {
+        setAuthView('signup')
+      } else {
+        setAuthView('login')
+      }
+    }
+
+    handleHashChange()
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
   async function loadData() {
@@ -160,77 +186,112 @@ function App() {
     }))
   }
 
+  function handleLoginSuccess() {
+    setIsAuthenticated(true)
+    setActiveView('dashboard')
+    loadData()
+  }
+
+  function handleLogout() {
+    authUtils.logout()
+    setIsAuthenticated(false)
+    setActiveView('dashboard')
+    setSearchTerm('')
+    setDashboard(null)
+    setSuppliers([])
+    setGrades([])
+    setCollections([])
+    setRanking([])
+    setGradeWise([])
+    window.location.hash = '#login'
+  }
+
   return (
-    <div className="workspace-shell">
-      <Sidebar activeView={activeView} onViewChange={setActiveView} />
-
-      <main className="main-panel">
-        <Topbar
-          activeView={activeView}
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          onRefresh={loadData}
-        />
-
-        {loading ? <div className="feedback-card">Loading live data...</div> : null}
-        {error ? <div className="feedback-card error">{error}</div> : null}
-        {message ? <div className="feedback-card success">{message}</div> : null}
-
-        {activeView === 'dashboard' && (
-          <Dashboard
-            dashboard={dashboard}
-            collections={collections}
-            grades={grades}
-            gradeWise={gradeWise}
-            ranking={ranking}
+    <>
+      {!isAuthenticated ? (
+        // Authentication Pages
+        <>
+          {authView === 'login' && <Login onLoginSuccess={handleLoginSuccess} />}
+          {authView === 'signup' && <Signup onSignupSuccess={handleLoginSuccess} />}
+        </>
+      ) : (
+        // Main App
+        <div className="workspace-shell">
+          <Sidebar
+            activeView={activeView}
+            onViewChange={setActiveView}
+            onLogout={handleLogout}
           />
-        )}
 
-        {activeView === 'suppliers' && (
-          <Suppliers
-            suppliers={suppliers}
-            collections={collections}
-            searchTerm={searchTerm}
-            supplierForm={supplierForm}
-            onFormChange={setSupplierForm}
-            onSubmit={handleSupplierSubmit}
-          />
-        )}
+          <main className="main-panel">
+            <Topbar
+              activeView={activeView}
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              onRefresh={loadData}
+            />
 
-        {activeView === 'grades' && (
-          <Grades
-            grades={grades}
-            searchTerm={searchTerm}
-            gradeForm={gradeForm}
-            onFormChange={setGradeForm}
-            onSubmit={handleGradeSubmit}
-          />
-        )}
+            {loading ? <div className="feedback-card">Loading live data...</div> : null}
+            {error ? <div className="feedback-card error">{error}</div> : null}
+            {message ? <div className="feedback-card success">{message}</div> : null}
 
-        {activeView === 'collections' && (
-          <Collections
-            suppliers={suppliers}
-            grades={grades}
-            collections={collections}
-            searchTerm={searchTerm}
-            collectionForm={collectionForm}
-            onFormChange={setCollectionForm}
-            onItemChange={updateCollectionItem}
-            onRemoveItem={removeCollectionItem}
-            onAddItem={addCollectionItem}
-            onSubmit={handleCollectionSubmit}
-          />
-        )}
+            {activeView === 'dashboard' && (
+              <Dashboard
+                dashboard={dashboard}
+                collections={collections}
+                grades={grades}
+                gradeWise={gradeWise}
+                ranking={ranking}
+              />
+            )}
 
-        {activeView === 'reports' && (
-          <Reports
-            collections={collections}
-            gradeWise={gradeWise}
-            ranking={ranking}
-          />
-        )}
-      </main>
-    </div>
+            {activeView === 'suppliers' && (
+              <Suppliers
+                suppliers={suppliers}
+                collections={collections}
+                searchTerm={searchTerm}
+                supplierForm={supplierForm}
+                onFormChange={setSupplierForm}
+                onSubmit={handleSupplierSubmit}
+              />
+            )}
+
+            {activeView === 'grades' && (
+              <Grades
+                grades={grades}
+                searchTerm={searchTerm}
+                gradeForm={gradeForm}
+                onFormChange={setGradeForm}
+                onSubmit={handleGradeSubmit}
+              />
+            )}
+
+            {activeView === 'collections' && (
+              <Collections
+                suppliers={suppliers}
+                grades={grades}
+                collections={collections}
+                searchTerm={searchTerm}
+                collectionForm={collectionForm}
+                onFormChange={setCollectionForm}
+                onItemChange={updateCollectionItem}
+                onRemoveItem={removeCollectionItem}
+                onAddItem={addCollectionItem}
+                onSubmit={handleCollectionSubmit}
+              />
+            )}
+
+            {activeView === 'reports' && (
+              <Reports
+                collections={collections}
+                gradeWise={gradeWise}
+                ranking={ranking}
+              />
+            )}
+          </main>
+        </div>
+      )}
+    </>
   )
 }
 

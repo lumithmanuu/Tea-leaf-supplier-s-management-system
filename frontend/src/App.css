@@ -166,6 +166,31 @@
   letter-spacing: 0.08em;
 }
 
+.logout-button {
+  margin-top: var(--space-6);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(245, 242, 237, 0.08);
+  color: rgba(245, 242, 237, 0.7);
+  border: 1px solid rgba(245, 242, 237, 0.12);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.logout-button:hover {
+  background: rgba(245, 242, 237, 0.12);
+  color: var(--color-text-inverse);
+  border-color: rgba(245, 242, 237, 0.2);
+}
+
+.logout-button:active {
+  background: rgba(245, 242, 237, 0.08);
+}
+
 .main-panel {
   margin-left: var(--sidebar-width);
   flex: 1;
