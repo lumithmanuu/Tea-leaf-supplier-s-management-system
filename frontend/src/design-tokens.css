@@ -1,0 +1,190 @@
+/**
+ * Design Token CSS Variables
+ * These variables are derived from design-tokens.ts
+ * Use these in your stylesheets for consistent theming
+ */
+
+:root {
+  /* Colors */
+  --dt-color-primary: #007AFF;
+  --dt-color-background: #F5F6FA;
+  --dt-color-surface: #FFFFFF;
+  --dt-color-text-primary: #1A1A1A;
+  --dt-color-text-secondary: #6B7280;
+  --dt-color-border: #F3F4F6;
+  --dt-color-success: #10B981;
+  --dt-color-warning: #F59E0B;
+
+  /* Typography Sizes */
+  --dt-text-sm: 12px;
+  --dt-text-body: 15px;
+  --dt-text-subtitle: 18px;
+  --dt-text-heading: 20px;
+
+  /* Typography Weights */
+  --dt-font-weight-small: 500;
+  --dt-font-weight-body: 400;
+  --dt-font-weight-subtitle: 600;
+  --dt-font-weight-heading: 700;
+
+  /* Spacing */
+  --dt-space-xs: 4px;
+  --dt-space-sm: 8px;
+  --dt-space-md: 12px;
+  --dt-space-lg: 16px;
+  --dt-space-xl: 20px;
+  --dt-space-xxl: 24px;
+
+  /* Border Radius */
+  --dt-radius-small: 8px;
+  --dt-radius-medium: 10px;
+  --dt-radius-large: 12px;
+
+  /* Shadows */
+  --dt-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --dt-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Typography Utility Classes */
+.dt-text-sm {
+  font-size: var(--dt-text-sm);
+  font-weight: var(--dt-font-weight-small);
+}
+
+.dt-text-body {
+  font-size: var(--dt-text-body);
+  font-weight: var(--dt-font-weight-body);
+}
+
+.dt-text-subtitle {
+  font-size: var(--dt-text-subtitle);
+  font-weight: var(--dt-font-weight-subtitle);
+}
+
+.dt-text-heading {
+  font-size: var(--dt-text-heading);
+  font-weight: var(--dt-font-weight-heading);
+}
+
+/* Shadow Utility Classes */
+.dt-shadow-light {
+  box-shadow: var(--dt-shadow-light);
+}
+
+.dt-shadow-card {
+  box-shadow: var(--dt-shadow-card);
+}
+
+/* Color Utility Classes */
+.dt-text-primary {
+  color: var(--dt-color-text-primary);
+}
+
+.dt-text-secondary {
+  color: var(--dt-color-text-secondary);
+}
+
+.dt-bg-primary {
+  background-color: var(--dt-color-primary);
+}
+
+.dt-bg-surface {
+  background-color: var(--dt-color-surface);
+}
+
+.dt-bg-background {
+  background-color: var(--dt-color-background);
+}
+
+.dt-border {
+  border-color: var(--dt-color-border);
+}
+
+/* Spacing Utility Classes */
+.dt-p-xs {
+  padding: var(--dt-space-xs);
+}
+
+.dt-p-sm {
+  padding: var(--dt-space-sm);
+}
+
+.dt-p-md {
+  padding: var(--dt-space-md);
+}
+
+.dt-p-lg {
+  padding: var(--dt-space-lg);
+}
+
+.dt-p-xl {
+  padding: var(--dt-space-xl);
+}
+
+.dt-p-xxl {
+  padding: var(--dt-space-xxl);
+}
+
+.dt-gap-xs {
+  gap: var(--dt-space-xs);
+}
+
+.dt-gap-sm {
+  gap: var(--dt-space-sm);
+}
+
+.dt-gap-md {
+  gap: var(--dt-space-md);
+}
+
+.dt-gap-lg {
+  gap: var(--dt-space-lg);
+}
+
+.dt-gap-xl {
+  gap: var(--dt-space-xl);
+}
+
+.dt-gap-xxl {
+  gap: var(--dt-space-xxl);
+}
+
+/* Border Radius Utility Classes */
+.dt-rounded-small {
+  border-radius: var(--dt-radius-small);
+}
+
+.dt-rounded-medium {
+  border-radius: var(--dt-radius-medium);
+}
+
+.dt-rounded-large {
+  border-radius: var(--dt-radius-large);
+}
+
+/* Component Default Styles */
+.dt-button {
+  padding: 12px 16px;
+  border-radius: var(--dt-radius-medium);
+  font-weight: var(--dt-font-weight-subtitle);
+  font-size: var(--dt-text-body);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dt-button-primary {
+  background-color: var(--dt-color-primary);
+  color: var(--dt-color-surface);
+}
+
+.dt-button-primary:hover {
+  opacity: 0.9;
+}
+
+.dt-card {
+  padding: 16px;
+  border-radius: var(--dt-radius-large);
+  background-color: var(--dt-color-surface);
+  box-shadow: var(--dt-shadow-card);
+}
