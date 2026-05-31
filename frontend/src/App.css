@@ -452,6 +452,7 @@
 .searchbar input,
 .form-card input,
 .form-card select,
+.grade-rate-editor input,
 .collection-form input,
 .collection-form select {
   width: 100%;
@@ -468,6 +469,7 @@
 
 .searchbar input::placeholder,
 .form-card input::placeholder,
+.grade-rate-editor input::placeholder,
 .collection-form input::placeholder {
   color: var(--color-text-muted);
 }
@@ -475,6 +477,7 @@
 .searchbar input:focus,
 .form-card input:focus,
 .form-card select:focus,
+.grade-rate-editor input:focus,
 .collection-form input:focus,
 .collection-form select:focus {
   border-color: var(--color-primary);
@@ -1054,6 +1057,12 @@ tbody tr:hover td {
   transform: translateY(-1px);
 }
 
+.compact-button {
+  width: auto;
+  min-height: 40px;
+  padding: 9px 14px;
+}
+
 .grade-rate-card {
   border-top: 4px solid var(--color-primary);
   position: relative;
@@ -1106,13 +1115,48 @@ tbody tr:hover td {
 }
 
 .grade-rate-card strong {
+  display: block;
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: 700;
   color: var(--color-primary);
 }
 
-.grade-rate-card span:last-child {
+.grade-edit-button {
+  margin-top: var(--dt-space-md);
+}
+
+.grade-rate-editor {
+  display: grid;
+  gap: var(--dt-space-md);
+}
+
+.grade-rate-editor label {
+  display: grid;
+  gap: var(--dt-space-sm);
+  font-size: var(--dt-text-body);
+  font-weight: var(--dt-font-weight-subtitle);
+  color: var(--dt-color-text-primary);
+}
+
+.grade-card-actions {
+  display: flex;
+  gap: var(--dt-space-sm);
+  flex-wrap: wrap;
+}
+
+.muted-button {
+  background: var(--dt-color-background);
+  color: var(--dt-color-text-primary);
+  border: 1px solid var(--dt-color-border);
+}
+
+.muted-button:hover {
+  background: var(--dt-color-border);
+}
+
+.grade-rate-card > span:last-child {
+  display: block;
   font-size: var(--dt-text-body);
   color: var(--dt-color-text-secondary);
   margin-top: var(--dt-space-sm);

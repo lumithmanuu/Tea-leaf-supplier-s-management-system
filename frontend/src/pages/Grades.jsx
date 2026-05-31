@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { formatCurrency } from '../utils/formatters'
 import { QUALITY_POINTS } from '../utils/constants'
 
@@ -8,7 +8,11 @@ export function Grades({
   gradeForm,
   onFormChange,
   onSubmit,
+  onUpdateGrade,
 }) {
+  const [editingGradeId, setEditingGradeId] = useState(null)
+  const [editingRate, setEditingRate] = useState('')
+
   const filteredGrades = useMemo(() => {
     const term = searchTerm.trim().toLowerCase()
     if (!term) return grades
@@ -19,6 +23,26 @@ export function Grades({
         .some((value) => value.toLowerCase().includes(term)),
     )
   }, [grades, searchTerm])
+
+  function startEditing(grade) {
+    setEditingGradeId(grade.gradeId)
+    setEditingRate(String(grade.ratePerKg))
+  }
+
+  function cancelEditing() {
+    setEditingGradeId(null)
+    setEditingRate('')
+  }
+
+  async function saveRate(event, grade) {
+    event.preventDefault()
+    await onUpdateGrade(grade.gradeId, {
+      gradeName: grade.gradeName,
+      description: grade.description,
+      ratePerKg: editingRate,
+    })
+    cancelEditing()
+  }
 
   return (
     <div className="view-stack">
@@ -34,7 +58,44 @@ export function Grades({
               <div className="grade-icon">◔</div>
               <h3>{grade.gradeName}</h3>
               <p>{grade.description || 'No description available.'}</p>
-              <strong>{formatCurrency(grade.ratePerKg)} / kg</strong>
+              {editingGradeId === grade.gradeId ? (
+                <form className="grade-rate-editor" onSubmit={(event) => saveRate(event, grade)}>
+                  <label>
+                    Rate per kg
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={editingRate}
+                      onChange={(event) => setEditingRate(event.target.value)}
+                      required
+                    />
+                  </label>
+                  <div className="grade-card-actions">
+                    <button type="submit" className="primary-button compact-button">
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      className="ghost-button compact-button muted-button"
+                      onClick={cancelEditing}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  <strong>{formatCurrency(grade.ratePerKg)} / kg</strong>
+                  <button
+                    type="button"
+                    className="ghost-button grade-edit-button"
+                    onClick={() => startEditing(grade)}
+                  >
+                    Edit rate
+                  </button>
+                </>
+              )}
               <span>Quality pts: {QUALITY_POINTS[grade.gradeName] ?? 0}</span>
             </article>
           ))}

@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { CollectionItem } from './collections/entities/collection-item.entity';
 import { LeafCollection } from './collections/entities/leaf-collection.entity';
 import { CollectionsModule } from './collections/collections.module';
-import { databaseConfig } from './database/database.config';
+import { databaseConfig, ensureDatabaseExists } from './database/database.config';
 import { SampleDataService } from './database/sample-data.service';
 import { Grade } from './grades/entities/grade.entity';
 import { GradesModule } from './grades/grades.module';
@@ -15,7 +15,12 @@ import { SuppliersModule } from './suppliers/suppliers.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(databaseConfig),
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => {
+        await ensureDatabaseExists();
+        return databaseConfig;
+      },
+    }),
     TypeOrmModule.forFeature([Supplier, Grade, LeafCollection, CollectionItem]),
     AuthModule,
     SuppliersModule,

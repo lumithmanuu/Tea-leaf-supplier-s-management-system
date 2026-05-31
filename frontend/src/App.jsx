@@ -130,6 +130,24 @@ function App() {
     }
   }
 
+  async function handleGradeUpdate(gradeId, updates) {
+    try {
+      await request(`/grades/${gradeId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          ...updates,
+          ratePerKg: Number(updates.ratePerKg),
+        }),
+      })
+      setMessage('Grade rate updated successfully.')
+      setError('')
+      await loadData()
+    } catch (submitError) {
+      setError('Failed to update grade rate.')
+      console.error(submitError)
+    }
+  }
+
   async function handleCollectionSubmit(event) {
     event.preventDefault()
 
@@ -263,6 +281,7 @@ function App() {
                 gradeForm={gradeForm}
                 onFormChange={setGradeForm}
                 onSubmit={handleGradeSubmit}
+                onUpdateGrade={handleGradeUpdate}
               />
             )}
 
